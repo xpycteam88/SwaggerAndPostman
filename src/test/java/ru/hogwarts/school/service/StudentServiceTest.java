@@ -1,16 +1,27 @@
 package ru.hogwarts.school.service;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 class StudentServiceTest {
 
-    private final StudentService studentService = new StudentService();
+
+    @Mock
+    StudentRepository studentRepository;
+
+    @InjectMocks
+    StudentService studentService;
 
     @Test
     void testCreateStudent() {
