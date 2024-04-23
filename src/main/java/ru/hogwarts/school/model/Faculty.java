@@ -19,6 +19,11 @@ public class Faculty {
     @JsonIgnore
     private Set<Student> students;
 
+    public Faculty(String name, String color) {
+        this.name = name;
+        this.color = color;
+    }
+
     public Faculty() {
 
     }
