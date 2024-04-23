@@ -3,12 +3,13 @@ package ru.hogwarts.school.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.exceptions.StudentNotFoundException;
+import ru.hogwarts.school.interfaces.StudentsWithBigId;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 @Service
 public class StudentService {
@@ -52,4 +53,17 @@ public class StudentService {
     public Faculty getFacultyByStudent(Long id) {
         return findStudent(id).getFaculty();
     }
+
+    public Integer getCountStudents(){
+        return studentRepository.getCountStudents();
+    }
+
+    public Integer getAvgAgeStudents(){
+        return studentRepository.getAvgAgeStudents();
+    }
+
+    public List<StudentsWithBigId> getStudentsWithBigId(){
+        return studentRepository.getLastFiveStudentsWithBigId();
+    }
+
 }
