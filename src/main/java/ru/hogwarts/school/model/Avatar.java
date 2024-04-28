@@ -21,6 +21,10 @@ public class Avatar {
     @JsonIgnore
     private Student student;
 
+    public Avatar() {
+
+    }
+
     public Long getId() {
         return id;
     }
