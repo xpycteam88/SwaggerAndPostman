@@ -1,6 +1,8 @@
 package ru.hogwarts.school.service;
 
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 public class AvatarService {
 
+    private final static Logger logger = LoggerFactory.getLogger(AvatarService.class);
 
     @Value("${path.to.avatars.folder}")
     private String avatarsDir;
@@ -38,6 +41,7 @@ public class AvatarService {
     }
 
     public void uploadAvatar(Long studentId, MultipartFile file) throws IOException {
+        logger.debug("Upload avatar was invoked");
         Student student = studentService.findStudent(studentId);
 
         Path filePath = Path.of(avatarsDir, studentId + "." + getExtensions(file.getOriginalFilename()));
@@ -52,6 +56,7 @@ public class AvatarService {
         ) {
             bis.transferTo(bos);
         }
+        logger.info("Files has been saved");
         Avatar avatar = findAvatar(studentId);
         avatar.setStudent(student);
         avatar.setFilePath(filePath.toString());
@@ -59,9 +64,11 @@ public class AvatarService {
         avatar.setMediaType(file.getContentType());
         avatar.setData(generateImagePreview(filePath)); // file.getBytes();
         avatarRepository.save(avatar);
+        logger.info("Avatar has been saved");
     }
 
     public Avatar findAvatar(Long studentId) {
+        logger.debug("Find avatar  was invoked");
         return avatarRepository.findByStudentId(studentId).orElseGet(Avatar::new);
     }
 
