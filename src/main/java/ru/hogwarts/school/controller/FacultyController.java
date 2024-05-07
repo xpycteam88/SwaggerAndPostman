@@ -69,4 +69,6 @@ public class FacultyController {
     public Collection<Student> getStudentsByFaculty(@PathVariable Long id) {
         return facultyService.getStudentByFaculty(id);
     }
+
+
 }

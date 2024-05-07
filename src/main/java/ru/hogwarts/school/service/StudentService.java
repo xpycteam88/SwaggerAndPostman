@@ -66,19 +66,40 @@ public class StudentService {
         return findStudent(id).getFaculty();
     }
 
-    public Integer getCountStudents(){
+    public Integer getCountStudents() {
         logger.debug("Get count students was invoked");
         return studentRepository.getCountStudents();
     }
 
-    public Integer getAvgAgeStudents(){
+    public Integer getAvgAgeStudents() {
         logger.debug("Method getAvgAgeStudents was invoked");
         return studentRepository.getAvgAgeStudents();
     }
 
-    public List<StudentsWithBigId> getStudentsWithBigId(){
+    public List<StudentsWithBigId> getStudentsWithBigId() {
         logger.debug("Method getLastFiveStudentsWithBigId was invoked");
         return studentRepository.getLastFiveStudentsWithBigId();
+    }
+
+    public Collection<String> getStudentsNameIsStartsFromG() {
+        logger.debug("Method getStudentsNameIsStartsFromG was invoked");
+        Collection<String> students = getAllStudents()
+                .stream()
+                .map(Student::getName)
+                .filter(names -> names.toUpperCase().startsWith("Г"))
+                .sorted()
+                .toList();
+        return students;
+    }
+
+    public Double getAvgAgeStudentsStream() {
+        logger.debug("Method getAvgAgeStudentsStream was invoked");
+        Double averageAge = getAllStudents()
+                .stream()
+                .mapToDouble(Student::getAge)
+                .average()
+                .orElse(Double.NaN);
+        return averageAge;
     }
 
 }
