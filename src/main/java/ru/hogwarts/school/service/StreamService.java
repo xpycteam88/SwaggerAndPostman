@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Service
@@ -13,10 +14,9 @@ public class StreamService {
 
     public int getSum() {
         logger.debug("Method getSum was invoked");
-        int sum = Stream.iterate(1, a -> a + 1)
+        int sum = IntStream.iterate(1, a -> a + 1)
                 .limit(1_000_000)
-                .parallel()
-                .reduce(0, Integer::sum);
+                .sum();
         return sum;
     }
 }

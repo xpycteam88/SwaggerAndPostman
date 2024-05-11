@@ -86,7 +86,8 @@ public class StudentService {
         Collection<String> students = getAllStudents()
                 .stream()
                 .map(Student::getName)
-                .filter(names -> names.toUpperCase().startsWith("Г"))
+                .map(String::toUpperCase)
+                .filter(names -> names.startsWith("Г"))
                 .sorted()
                 .toList();
         return students;
