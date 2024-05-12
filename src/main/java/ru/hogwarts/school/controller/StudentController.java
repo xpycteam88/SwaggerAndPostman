@@ -102,4 +102,16 @@ public class StudentController {
         return studentService.getStudentsWithBigId();
     }
 
+    @GetMapping("print-parallel")
+    public ResponseEntity<String> getPrintNameStudentsParallel() {
+        studentService.getStudentsNamePrintParallel();
+        return ResponseEntity.ok("Result in console");
+    }
+
+    @GetMapping("print-synchronized")
+    public ResponseEntity<String> getPrintNameStudentsSynchronized() {
+        studentService.getStudentsNamePrintSynchronized();
+        return ResponseEntity.ok("Result in console");
+    }
+
 }
