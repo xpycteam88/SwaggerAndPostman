@@ -17,6 +17,7 @@ import java.util.List;
 public class StudentService {
 
     private final static Logger logger = LoggerFactory.getLogger(StudentService.class);
+    private Integer count;
 
     @Autowired
     private final StudentRepository studentRepository;
@@ -102,5 +103,51 @@ public class StudentService {
                 .orElse(Double.NaN);
         return averageAge;
     }
+
+    public void getStudentsNamePrintParallel() {
+        logger.debug("Method getStudentsNamePrintParallel was invoked");
+        List<Student> students = studentRepository.findAll();
+
+        System.out.println(students.get(0).getName());
+        System.out.println(students.get(1).getName());
+
+        new Thread(() -> {
+            System.out.println(students.get(2).getName());
+            System.out.println(students.get(3).getName());
+        }).start();
+
+        new Thread(() -> {
+            System.out.println(students.get(4).getName());
+            System.out.println(students.get(5).getName());
+        }).start();
+    }
+
+    public void getStudentsNamePrintSynchronized() {
+        logger.debug("Method getStudentsNamePrintSynchronized was invoked");
+        count = 0;
+        List<Student> students = studentRepository.findAll();
+
+        printStudentName(students);
+        printStudentName(students);
+
+        new Thread(() -> {
+            printStudentName(students);
+            printStudentName(students);
+        }).start();
+
+        new Thread(() -> {
+            printStudentName(students);
+            printStudentName(students);
+        }).start();
+
+    }
+
+    private void printStudentName(List<Student> students) {
+        System.out.println(count + 1 + " студент: " + students.get(count).toString());
+        synchronized (count) {
+            count++;
+        }
+    }
+
 
 }
